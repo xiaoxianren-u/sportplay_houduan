@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.ong//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyunjiaoyu.sportplay.dao.UserDao">
+    <select id="getUserByMassage" resultType="com.deyunjiaoyu.sportplay.bean.User">
+        Select * from user where
+        username=#{username} and password = #{password} and state =1
+    </select>
+    <select id="getAllUser" resultType="com.deyunjiaoyu.sportplay.bean.User">
+        select * from user
+        <if test="username != null ">
+            WHERE username LIKE #{username}
+        </if>
+<!--        事项分页-->
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+    <select id="getUserCounts" resultType="java.lang.Integer">
+        Select  count(*) from user
+        <if test="username != null">
+            WHERE username LIKE #{username}
+        </if>
+    </select>
+    <update id="updateState">
+        update user set state = #{state} where id = #{id}
+    </update>
+
+    <insert id="addUser">
+        insert into user(username,password,email,role,state )
+        values(#{username},#{password},#{email},#{role},#{state})
+    </insert>
+<!--    在正在开发中是不可以删除用户信息的，只是隐藏-->
+    <delete id="deleteUserById">
+        delete from user WHERE id = #{id}
+    </delete>
+    <select id="getUpdaraUser" resultType="com.deyunjiaoyu.sportplay.bean.User">
+        SELECT * from user where id = #{id}
+    </select>
+    <update id="editUser">
+        update user set username = #{username},password = #{password},
+        email = #{email} Where id = #{id}
+    </update>
+
+</mapper>
